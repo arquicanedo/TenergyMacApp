@@ -12,7 +12,22 @@ import CoreBluetooth
 class ViewController: NSViewController, CBPeripheralDelegate, CBCentralManagerDelegate {
 
 
-
+    @IBOutlet weak var F1: NSTextField!
+    @IBOutlet weak var F2: NSTextField!
+    @IBOutlet weak var F3: NSTextField!
+    @IBOutlet weak var F4: NSTextField!
+    @IBOutlet weak var F5: NSTextField!
+    @IBOutlet weak var F6: NSTextField!
+    @IBOutlet weak var C1: NSTextField!
+    @IBOutlet weak var C2: NSTextField!
+    @IBOutlet weak var C3: NSTextField!
+    @IBOutlet weak var C4: NSTextField!
+    @IBOutlet weak var C5: NSTextField!
+    @IBOutlet weak var C6: NSTextField!
+    
+    @IBOutlet weak var Status: NSTextField!
+    
+    
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
@@ -150,7 +165,8 @@ class ViewController: NSViewController, CBPeripheralDelegate, CBCentralManagerDe
         self.peripheral.delegate = self
         
         print("Connecting to peripheral", self.peripheral.name, self.peripheral.identifier)
-
+        Status.stringValue = "Connecting..."
+        
         // Connect!
         self.centralManager.connect(self.peripheral, options: nil)
         
@@ -161,6 +177,7 @@ class ViewController: NSViewController, CBPeripheralDelegate, CBCentralManagerDe
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         if peripheral == self.peripheral {
             print("Connected to peripheral", peripheral.name)
+            Status.stringValue = "Connected"
             peripheral.discoverServices([ViewController.TenergyUUID]);
         }
     }
@@ -169,10 +186,12 @@ class ViewController: NSViewController, CBPeripheralDelegate, CBCentralManagerDe
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         if peripheral == self.peripheral {
             print("Disconnected")
+            Status.stringValue = "Disconnected..."
             self.peripheral = nil
             
             // Start scanning again
             print("Central scanning from centralManager for ...");
+
             centralManager.scanForPeripherals(withServices: [ViewController.TenergyUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
         }
     }
@@ -281,7 +300,22 @@ class ViewController: NSViewController, CBPeripheralDelegate, CBCentralManagerDe
 
         print("Celcius:", temps)
         
+        C1.stringValue = temps[0] != -1 ? String(temps[0]) : ""
+        C2.stringValue = temps[1] != -1 ? String(temps[1]) : ""
+        C3.stringValue = temps[2] != -1 ? String(temps[2]) : ""
+        C4.stringValue = temps[3] != -1 ? String(temps[3]) : ""
+        C5.stringValue = temps[4] != -1 ? String(temps[4]) : ""
+        C6.stringValue = temps[5] != -1 ? String(temps[5]) : ""
+        
+        F1.stringValue = temps[0] != -1 ? String(Double(temps[0]) * 1.8 + 32) : ""
+        F2.stringValue = temps[1] != -1 ? String(Double(temps[1]) * 1.8 + 32) : ""
+        F3.stringValue = temps[2] != -1 ? String(Double(temps[2]) * 1.8 + 32) : ""
+        F4.stringValue = temps[3] != -1 ? String(Double(temps[3]) * 1.8 + 32) : ""
+        F5.stringValue = temps[4] != -1 ? String(Double(temps[4]) * 1.8 + 32) : ""
+        F6.stringValue = temps[5] != -1 ? String(Double(temps[5]) * 1.8 + 32) : ""
+        
     }
+
     
     /*
     // Handle the discovery of descriptors
