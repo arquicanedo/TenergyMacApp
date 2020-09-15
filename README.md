@@ -1,5 +1,5 @@
 # TenergyMacApp
-Mac app for reading the temperature from the Tenergy Solis Smart Food Thermometer.
+Mac app for reading the temperature from the [Tenergy Solis Smart Food Thermometer](https://amzn.to/2FmyJGZ).
 
 # Features
 - 6 probes
